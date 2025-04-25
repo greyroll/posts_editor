@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if post else 'New' }} Post{% endblock %}
+{% block content %}
+<h1>{{ 'Edit' if post else 'New' }} Post</h1>
+<form method="post">
+    <label>Title: <input type="text" name="title" value="{{ post.title if post else '' }}"></label><br>
+    <label>Content:<br><textarea name="content">{{ post.content if post else '' }}</textarea></label><br>
+    <label>Category:
+        <select name="category_id">
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if post and post.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+    <fieldset>
+        <legend>Tags:</legend>
+        {% for tag in tags %}
+        <label><input type="checkbox" name="tag_ids" value="{{ tag.id }}"
+            {% if post and (tag.id in post_tag_ids) %}checked{% endif %}> {{ tag.name }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

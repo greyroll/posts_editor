@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}English Learners{% endblock %}</title>
+
+    <!-- Стили -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- ХЕДЕР -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/categories">Категории</a></li>
+                <li><a href="/tags">Теги</a></li>
+                <li><a href="/posts/new">Новый пост</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div>My Site</div>
+    </footer>
+
+</body>
+</html>

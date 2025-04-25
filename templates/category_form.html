@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Category Form{% endblock %}
+{% block content %}
+<h1>{{ 'Edit' if category else 'New' }} Category</h1>
+<form method="post">
+    <label>Name: <input type="text" name="name" value="{{ category.name if category else '' }}"></label>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
