@@ -4,40 +4,68 @@
 
 {% block content %}
 
-<h1>Categories and Tags</h1>
+{% if message %}
+    {% set color = {
+        "success": "green",
+        "error": "red",
+        "info": "blue",
+        "warning": "yellow"
+      }[message_type or 'info'] %}
+    <div class="mb-4 p-4 rounded bg-{{ color }}-100 text-{{ color }}-800 border border-{{ color }}-300 shadow">
+      {{ message }}
+    </div>
+{% endif %}
 
-<section>
-    <h2>Categories</h2>
-    <a href="/categories/new">➕ Add Category</a>
-    <ul>
+
+<div class="max-w-3xl mx-auto px-4 py-8 bg-white/70 backdrop-blur-md rounded-xl shadow-sm">
+
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">🧩 Categories and Tags</h1>
+
+  <!-- Categories -->
+  <section class="mb-10">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-xl font-semibold text-gray-700">📂 Categories</h2>
+      <a href="/categories/new" class="text-sm text-blue-600 hover:text-blue-800 transition">➕ Add Category</a>
+    </div>
+
+    {% if categories %}
+      <ul class="space-y-2">
         {% for category in categories %}
-        <li>
-            {{ category.name }}
-            <a href="/categories/{{ category.id }}/edit">✏️ Edit</a>
+        <li class="flex items-center justify-between border rounded-md px-4 py-2 bg-white/80 hover:shadow-sm transition">
+          <span>{{ category.name }}</span>
+          <a href="/categories/{{ category.id }}/edit" class="text-sm text-gray-600 hover:text-blue-600">✏️ Edit</a>
         </li>
-        {% else %}
-        <li>No categories yet.</li>
         {% endfor %}
-    </ul>
-</section>
+      </ul>
+    {% else %}
+      <p class="text-gray-500 italic mt-2">No categories yet.</p>
+    {% endif %}
+  </section>
 
-<hr>
+  <hr class="my-6 border-gray-300">
 
-<section>
-    <h2>Tags</h2>
-    <a href="/tags/new">➕ Add Tag</a>
-    <ul>
+  <!-- Tags -->
+  <section>
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-xl font-semibold text-gray-700">🏷️ Tags</h2>
+      <a href="/tags/new" class="text-sm text-blue-600 hover:text-blue-800 transition">➕ Add Tag</a>
+    </div>
+
+    {% if tags %}
+      <ul class="space-y-2">
         {% for tag in tags %}
-        <li>
-            {{ tag.name }}
-            <form action="/tags/{{ tag.id }}/delete" method="post" style="display:inline;">
-                <button type="submit">❌ Delete</button>
-            </form>
+        <li class="flex items-center justify-between border rounded-md px-4 py-2 bg-white/80 hover:shadow-sm transition">
+          <span>{{ tag.name }}</span>
+          <form action="/tags/{{ tag.id }}/delete" method="post" class="inline">
+            <button type="submit" class="text-sm text-red-600 hover:text-red-800">❌ Delete</button>
+          </form>
         </li>
-        {% else %}
-        <li>No tags yet.</li>
         {% endfor %}
-    </ul>
-</section>
+      </ul>
+    {% else %}
+      <p class="text-gray-500 italic mt-2">No tags yet.</p>
+    {% endif %}
+  </section>
 
+</div>
 {% endblock %}
