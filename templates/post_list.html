@@ -3,6 +3,19 @@
 {% block title %}Posts{% endblock %}
 
 {% block content %}
+
+{% if message %}
+    {% set color = {
+        "success": "green",
+        "error": "red",
+        "info": "blue",
+        "warning": "yellow"
+      }[message_type or 'info'] %}
+    <div id="flash-message" class="mb-4 p-4 rounded bg-{{ color }}-100 text-{{ color }}-800 border border-{{ color }}-300 shadow transition-opacity duration-1000 opacity-100">
+      {{ message }}
+    </div>
+{% endif %}
+
 <div class="max-w-3xl mx-auto px-4">
 
    <div class="flex justify-between items-center mb-6">

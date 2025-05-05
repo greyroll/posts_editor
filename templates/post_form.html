@@ -1,24 +1,68 @@
 {% extends "base.html" %}
 {% block title %}{{ 'Edit' if post else 'New' }} Post{% endblock %}
+
 {% block content %}
-<h1>{{ 'Edit' if post else 'New' }} Post</h1>
-<form method="post">
-    <label>Title: <input type="text" name="title" value="{{ post.title if post else '' }}"></label><br>
-    <label>Content:<br><textarea name="content">{{ post.content if post else '' }}</textarea></label><br>
-    <label>Category:
-        <select name="category_id">
-            {% for category in categories %}
-            <option value="{{ category.id }}" {% if post and post.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
-            {% endfor %}
-        </select>
-    </label><br>
-    <fieldset>
-        <legend>Tags:</legend>
-        {% for tag in tags %}
-        <label><input type="checkbox" name="tag_ids" value="{{ tag.id }}"
-            {% if post and (tag.id in post_tag_ids) %}checked{% endif %}> {{ tag.name }}</label><br>
+<div class="max-w-3xl mx-auto px-8 py-8 bg-white/70 backdrop-blur-md shadow rounded-xl">
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ '✏️ Edit Post' if post else '➕ New Post' }}
+  </h1>
+
+  <form method="post" class="space-y-6">
+
+    <!-- Title -->
+    <div>
+      <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title:</label>
+      <input type="text" id="title" name="title" value="{{ post.title if post else '' }}"
+             class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+             required>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Content:</label>
+      <textarea id="content" name="content" rows="6"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required>{{ post.content if post else '' }}</textarea>
+    </div>
+
+    <!-- Category -->
+    <div>
+      <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Category:</label>
+      <select id="category_id" name="category_id"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if post and post.category_id == category.id %}selected{% endif %}>
+          {{ category.name }}
+        </option>
         {% endfor %}
+      </select>
+    </div>
+
+    <!-- Tags -->
+    <fieldset>
+      <legend class="text-sm font-medium text-gray-700 mb-2">Tags:</legend>
+      <div class="flex flex-wrap gap-3">
+        {% for tag in tags %}
+        <label class="inline-flex items-center space-x-2 text-sm text-gray-700">
+          <input type="checkbox" name="tag_ids" value="{{ tag.id }}"
+                 {% if post and (tag in post.tags) %}checked{% endif %}
+                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+          <span>{{ tag.name }}</span>
+        </label>
+        {% endfor %}
+      </div>
     </fieldset>
-    <button type="submit">Save</button>
-</form>
+
+    <!-- Submit -->
+    <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
+      💾 Save
+    </button>
+
+  </form>
+</div>
 {% endblock %}

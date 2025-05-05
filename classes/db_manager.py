@@ -152,6 +152,14 @@ class DBManager:
 		with Session(self.engine) as session:
 			return list(session.exec(select(Tag).options(selectinload(Tag.posts))).all())
 
+	def get_tag_by_id(self, tag_id: int) -> Tag:
+		with Session(self.engine) as session:
+			return session.exec(select(Tag).where(Tag.id == tag_id)).first()
+
+	def _get_tag_by_id(self, session: Session, tag_id: int) -> Tag | None:
+		return session.get(Tag, tag_id)
+
+
 	def create_tag(self, name: str) -> Tag:
 		with Session(self.engine) as session:
 			tag = Tag(name=name)
@@ -166,16 +174,4 @@ class DBManager:
 			if tag:
 				session.delete(tag)
 				session.commit()
-				return tag
-			return None
-
-	# endregion
-
-	# region Private helpers
-
-
-
-	def _get_tag_by_id(self, session: Session, tag_id: int) -> Tag | None:
-		return session.get(Tag, tag_id)
-
 	# endregion

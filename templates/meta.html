@@ -11,7 +11,7 @@
         "info": "blue",
         "warning": "yellow"
       }[message_type or 'info'] %}
-    <div class="mb-4 p-4 rounded bg-{{ color }}-100 text-{{ color }}-800 border border-{{ color }}-300 shadow">
+    <div id="flash-message" class="mb-4 p-4 rounded bg-{{ color }}-100 text-{{ color }}-800 border border-{{ color }}-300 shadow transition-opacity duration-1000 opacity-100">
       {{ message }}
     </div>
 {% endif %}
@@ -68,4 +68,17 @@
   </section>
 
 </div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const msg = document.getElementById("flash-message");
+    if (msg) {
+      setTimeout(() => {
+        msg.classList.add("opacity-0");
+        setTimeout(() => msg.remove(), 500);
+      }, 3000);
+    }
+  });
+</script>
+
 {% endblock %}
